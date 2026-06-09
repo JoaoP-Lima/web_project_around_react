@@ -7,7 +7,7 @@ import Main from "./Main/Main"
 import Footer from "./Footer/Footer"
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>

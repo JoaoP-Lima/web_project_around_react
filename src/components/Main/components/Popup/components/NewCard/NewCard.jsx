@@ -1,6 +1,6 @@
 export default function NewCard() {
     return (
-        <form class="popup__form" id="new-card-form" name="newPlaceForm">
+        <form className="popup__form" id="new-card-form" name="newPlaceForm">
             <input
               className="popup__input popup__input_type_place-name"
               name="name"

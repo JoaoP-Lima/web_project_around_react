@@ -16,9 +16,11 @@ function Main() {
     setPopup(popup);
   }
 
-  function handleClosePopup(popup) {
+  function handleClosePopup() {
     setPopup(null);
   }
+
+
 
     const newCardPopup = {
     title: "Novo Local",
@@ -32,6 +34,7 @@ function Main() {
     title: "Alterar a foto da perfil",
     children: <EditAvatar />,
   };
+
 
     const cards = [
     {

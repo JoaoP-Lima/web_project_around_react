@@ -4,7 +4,7 @@ export default function ImagePopup(props) {
     return (
         <>
      
-     <img alt="" className="popup__image" src={link}  />
+     <img alt={`Imagem de ${name}`} className="popup__image" src={link}  />
           <p className="popup__caption">{name}</p>
           </>
     )
