@@ -1,30 +1,22 @@
 import Avatar from "../../images/avatar.jpg";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import Popup from "./components/Popup/Popup";
 import NewCard from "./components/Popup/components/NewCard/NewCard";
 import EditProfile from "./components/Popup/components/EditProfile/EditProfile";
 import EditAvatar from "./components/Popup/components/EditAvatar/EditAvatar";
+import { api } from "../../utils/api";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 import Card from "./components/Card/Card";
-function Main() {
-  const [popup, setPopup] = useState(null);
+import { use } from "react";
+function Main(props) {
+
+  const { currentUser } = useContext(CurrentUserContext);
 
 
-
-
-    function handleOpenPopup(popup) {
-    setPopup(popup);
-  }
-
-  function handleClosePopup() {
-    setPopup(null);
-  }
-
-
-
-    const newCardPopup = {
+  const newCardPopup = {
     title: "Novo Local",
-    children: <NewCard />,
+    children: <NewCard onAddPlaceSubmit={props.onAddPlaceSubmit} />,
   };
   const editProfilePopup = {
     title: "Editar Perfil",
@@ -35,73 +27,59 @@ function Main() {
     children: <EditAvatar />,
   };
 
-
-    const cards = [
-    {
-      isLiked: false,
-      _id: "5d1f0611d321eb4bdcd707dd",
-      name: "Yosemite Valley",
-      link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-      owner: "5d1f0611d321eb4bdcd707dd",
-      createdAt: "2019-07-05T08:10:57.741Z",
- 
-    },
-    {
-      isLiked: false,
-      _id: "5d1f064ed321eb4bdcd707de",
-      name: "Lake Louise",
-      link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-      owner: "5d1f0611d321eb4bdcd707dd",
-      createdAt: "2019-07-05T08:11:58.324Z",
-
-    },
-    ];
-
-
-
-
-
   return (
     <main className="content">
       <section className="profile page__section">
         <div className="profile__image-container">
-          <img className="profile__image" src={Avatar} alt="Avatar" />
+          <img
+            className="profile__image"
+            src={currentUser.avatar}
+            alt="Avatar"
+          />
           <div className="profile__image-overlay">
             <button
               aria-label="Editar Avatar"
               type="button"
               className="profile__icon"
-              onClick={() => handleOpenPopup(editAvatarPopup)}
+              onClick={() => props.onOpenPopup(editAvatarPopup)}
             ></button>
           </div>
         </div>
         <div className="profile__info">
-          <h1 className="profile__title"></h1>
+          <h1 className="profile__title">{currentUser.name}</h1>
+
           <button
             aria-label="Editar perfil"
             className="profile__edit-button"
             type="button"
-            onClick={() => handleOpenPopup(editProfilePopup)}
+            onClick={() => props.onOpenPopup(editProfilePopup)}
           ></button>
-          <p className="profile__description"></p>
+          <p className="profile__description">{currentUser.about}</p>
         </div>
         <button
           aria-label="Adicionar cartão"
           className="profile__add-button"
           type="button"
-          onClick={() => handleOpenPopup(newCardPopup)}
+          onClick={() => props.onOpenPopup(newCardPopup)}
         ></button>
       </section>
       <section className="cards page__section">
         <ul className="cards__list">
-          {cards.map((card) => (
-            <Card key={card._id} card={card} onClick={handleOpenPopup}/>
+          {props.cards.map((card) => (
+            <Card
+              key={card._id}
+              card={card}
+              onOpenPopup={props.onOpenPopup}
+              onClosePopup={props.onClosePopup}
+              onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete}
+            />
           ))}
         </ul>
       </section>
-      {popup && (
-        <Popup onClose={handleClosePopup} title={popup.title}>
-          {popup.children}
+      {props.popup && (
+        <Popup onClose={props.onClosePopup} title={props.popup.title}>
+          {props.popup.children}
         </Popup>
       )}
     </main>
